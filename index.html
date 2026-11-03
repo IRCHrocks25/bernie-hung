@@ -1,0 +1,716 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Bloom with Bernie</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Ccircle cx=%2732%27 cy=%2732%27 r=%2730%27 fill=%27%23DCE4D9%27/%3E%3Cpath d=%27M32 14c6 10 11 16 11 24a11 11 0 0 1-22 0c0-8 5-14 11-24z%27 fill=%27%231F1D1A%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Figtree:wght@300;400;500&display=swap">
+<style>
+/* Layout: airy single column of full-width bands; editorial image tiles; max 1240px content, generous vertical rhythm. */
+:root{
+  --bg:#FBFAF7;          /* warm paper white, from the cream image */
+  --bg-2:#F3F0E9;        /* cream tint for soft bands */
+  --sage:#DCE4D9;        /* pale sage, from the water image */
+  --sage-deep:#4A5C4D;   /* sage ink for small accents */
+  --ink:#1F1D1A;         /* warm near-black */
+  --ink-2:#5B5752;       /* secondary text */
+  --ink-3:#716D66;       /* captions */
+  --line:#E6E1D8;        /* hairlines */
+  --honey:#C9A557;       /* a drop of the oil image, used sparingly */
+  --display:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --body:"Figtree","Helvetica Neue",Arial,sans-serif;
+  --gutter:max(20px,env(safe-area-inset-left,0px));
+  --gutter-r:max(20px,env(safe-area-inset-right,0px));
+  --max:1240px;
+  --r:4px;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-weight:300;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{font-family:var(--display);font-weight:300;line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.005em}
+p{margin:0}
+.wrap{max-width:var(--max);margin-inline:auto;padding-left:var(--gutter);padding-right:var(--gutter-r)}
+.band{padding-block:clamp(72px,10vw,140px)}
+.band--tight{padding-block:clamp(56px,7vw,96px)}
+.band--cream{background:var(--bg-2)}
+.band--sage{background:var(--sage)}
+.eyebrow{font-family:var(--body);font-weight:500;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
+.eyebrow--sage{color:var(--sage-deep)}
+.kicker{font-family:var(--display);font-size:clamp(20px,2vw,24px);font-style:italic;color:var(--ink-2);margin-top:10px}
+.h-xl{font-size:clamp(40px,5.4vw,72px);line-height:1.08}
+.h-l{font-size:clamp(32px,3.8vw,52px)}
+.h-m{font-size:clamp(28px,3.2vw,42px)}
+.h-s{font-size:clamp(22px,2.2vw,28px);font-weight:400}
+.lede{font-size:clamp(18px,1.5vw,21px);line-height:1.6;color:var(--ink-2);max-width:62ch}
+.copy{max-width:62ch;color:var(--ink-2)}
+.copy p + p{margin-top:1.1em}
+.stack{display:grid;gap:16px}
+.note{font-size:15px;color:var(--ink-3);line-height:1.55}
+.note a,.copy a,.inline-link{border-bottom:1px solid var(--line);padding-bottom:1px;transition:border-color .2s}
+.note a:hover,.copy a:hover,.inline-link:hover{border-color:var(--ink)}
+.inline-link{color:var(--ink);font-weight:400}
+.sec-head{display:grid;gap:14px;margin-bottom:clamp(40px,5vw,72px)}
+.sec-head .lede{margin-top:6px}
+@media (min-width:900px){.sec-head--split{grid-template-columns:1.1fr .9fr;align-items:end;gap:48px}.sec-head--split .lede{margin:0 0 6px}}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:14px 28px;border-radius:999px;font-family:var(--body);font-weight:500;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;text-align:center;white-space:normal;line-height:1.3;width:100%;border:1px solid var(--ink);background:var(--ink);color:#fff;transition:background .25s,color .25s,border-color .25s,transform .25s;cursor:pointer}
+.btn:hover{background:#000;transform:translateY(-1px)}
+.btn--ghost{background:transparent;color:var(--ink)}
+.btn--ghost:hover{background:var(--ink);color:#fff}
+.btn--light{background:#fff;border-color:#fff;color:var(--ink)}
+.btn--light:hover{background:var(--bg-2);border-color:var(--bg-2)}
+.btn:focus-visible,a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--sage-deep);outline-offset:3px}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+@media (min-width:640px){.btn{width:auto}}
+.textlink{display:inline-block;margin-top:6px;font-size:15px;color:var(--ink-2);border-bottom:1px solid var(--line);padding-bottom:2px;transition:border-color .2s,color .2s}
+.textlink:hover{color:var(--ink);border-color:var(--ink)}
+
+/* Header */
+.site-head{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(251,250,247,.86);backdrop-filter:saturate(1.2) blur(14px);-webkit-backdrop-filter:saturate(1.2) blur(14px);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}
+.logo{display:flex;align-items:center;line-height:1.05;flex-shrink:0}
+.logo-img{height:52px;width:auto;display:block}
+.logo-fallback{display:none;flex-direction:column}
+.logo:not(:has(.logo-img)) .logo-fallback{display:flex}
+.logo-fallback b{font-family:var(--display);font-weight:400;font-size:22px;letter-spacing:.02em}
+.logo-fallback i{font-style:normal;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);margin-top:3px}
+.nav-links{display:none;gap:30px;align-items:center}
+.nav-links a{font-size:14px;font-weight:400;color:var(--ink-2);padding:13px 0;min-height:44px;display:inline-flex;align-items:center;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{display:none}
+.nav-cta .btn{min-height:44px;padding:10px 20px;font-size:11.5px}
+.burger{display:inline-flex;flex-direction:column;justify-content:center;gap:5px;width:48px;height:48px;background:none;border:0;cursor:pointer;padding:12px;margin-right:-12px}
+.burger i{display:block;height:1px;background:var(--ink);transition:transform .3s,opacity .3s}
+.burger.is-open i:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger.is-open i:nth-child(2){opacity:0}
+.burger.is-open i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.menu{position:fixed;inset:0;top:calc(env(safe-area-inset-top,0px) + 69px);background:var(--bg);z-index:49;padding:28px var(--gutter-r) 40px var(--gutter);display:none;flex-direction:column;gap:6px;overflow:auto}
+.menu.open{display:flex}
+.menu a:not(.btn){font-family:var(--display);font-size:30px;padding:10px 0;border-bottom:1px solid var(--line);min-height:52px;display:flex;align-items:center}
+.menu .btn{margin-top:22px}
+@media (min-width:1024px){.nav-links,.nav-cta{display:flex}.burger,.menu{display:none!important}}
+
+/* Hero — full-width image, centered copy */
+.hero{position:relative;overflow:hidden;color:#fff;background:#262522;display:grid;align-items:center;min-height:clamp(580px,88vh,860px)}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(22,20,17,.5) 0%,rgba(22,20,17,.34) 42%,rgba(22,20,17,.62) 100%)}
+.hero .wrap{position:relative;z-index:2}
+.hero-inner{max-width:1120px;margin-inline:auto;text-align:center;display:grid;justify-items:center;gap:22px;padding-block:clamp(72px,13vw,132px);text-shadow:0 1px 26px rgba(0,0,0,.34)}
+.hero-inner .eyebrow{color:rgba(255,255,255,.82)}
+.hero-inner h1{color:#fff;max-width:24ch}
+.hero-inner .lede{color:rgba(255,255,255,.93);margin-inline:auto}
+.hero-inner .copy{color:rgba(255,255,255,.88);margin-inline:auto;font-size:16px}
+.hero-ctas{display:grid;gap:12px;margin-top:8px;width:100%;max-width:520px}
+.hero-ctas .btn--ghost{border-color:rgba(255,255,255,.6);color:#fff}
+.hero-ctas .btn--ghost:hover{background:#fff;color:var(--ink);border-color:#fff}
+.hero .textlink{color:rgba(255,255,255,.9);border-color:rgba(255,255,255,.4)}
+.hero .textlink:hover{color:#fff;border-color:#fff}
+@media (min-width:560px){.hero-ctas{display:flex;flex-wrap:wrap;justify-content:center;max-width:none}}
+@media (min-width:900px){.hero-inner h1{max-width:28ch}}
+
+/* Stats */
+.stat-grid{display:grid;gap:36px 24px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:900px){.stat-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.stat b{display:block;font-family:var(--display);font-weight:300;font-size:clamp(44px,5vw,68px);line-height:1;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.stat span{display:block;margin-top:12px;font-size:16px;color:var(--ink-2);line-height:1.5;max-width:26ch}
+.stat-foot{margin-top:40px;padding-top:24px;border-top:1px solid var(--line);display:grid;gap:8px}
+.cred-grid{display:grid;gap:40px}
+@media (min-width:1024px){.cred-grid{grid-template-columns:320px 1fr;gap:72px;align-items:start}}
+/* Centered stat section (credibility + company band) */
+.cred-center{text-align:center}
+.cred-center .sec-head-c{display:grid;gap:14px;justify-items:center;margin-bottom:clamp(40px,5vw,66px)}
+.cred-center .sec-head-c h2{max-width:20ch}
+.statrow{display:grid;gap:44px 36px;grid-template-columns:repeat(2,minmax(0,1fr));max-width:1040px;margin-inline:auto}
+@media (min-width:880px){.statrow{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.statrow .stat{text-align:center}
+.statrow .stat b{font-size:clamp(46px,5vw,72px)}
+.statrow .stat span{margin-top:14px;margin-inline:auto;max-width:34ch;font-size:16.5px}
+.cred-foot{margin-top:clamp(38px,5vw,58px);padding-top:26px;border-top:1px solid var(--line);max-width:78ch;margin-inline:auto}
+/* Company band with photographic background */
+.statband{position:relative;overflow:hidden;color:#fff;background:#20261f;min-height:clamp(560px,64vh,700px);display:grid;align-items:center}
+.statband .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.statband::after{content:"";position:absolute;inset:0;z-index:1;background:rgba(18,20,16,.2)}
+.statband .wrap{position:relative;z-index:2;max-width:1600px;text-shadow:0 1px 22px rgba(0,0,0,.45)}
+.statband .sec-head-c h2{color:#fff;font-family:var(--display);font-weight:400;letter-spacing:-.005em;max-width:none}
+@media (min-width:760px){.statband .sec-head-c h2{white-space:nowrap}}
+.statband .eyebrow{color:#fff}
+.statband .statrow{max-width:1560px}
+.statband .statrow .stat b{color:#fff;font-family:var(--display);font-weight:300;letter-spacing:-.005em;font-size:clamp(64px,7.4vw,108px)}
+.statband .statrow .stat span{color:rgba(255,255,255,.9);font-family:var(--body)}
+.statband .cred-foot{border-color:rgba(255,255,255,.28)}
+.statband .cred-foot .note{color:rgba(255,255,255,.82)}
+
+/* Problem */
+.split{display:grid;gap:40px}
+@media (min-width:900px){.split{grid-template-columns:1fr 1fr;gap:72px;align-items:center}.split--rev > .media{order:2}}
+.media{border-radius:var(--r);overflow:hidden;background:var(--bg-2);max-width:100%}
+.media img{width:100%;height:100%;object-fit:cover}
+.media--tall{aspect-ratio:4/5}
+.media--sq{aspect-ratio:1/1}
+.media--wide{aspect-ratio:3/2}
+.pull{font-family:var(--display);font-size:clamp(26px,2.6vw,34px);line-height:1.25;font-weight:400;color:var(--ink);margin-block:18px 6px}
+
+/* Source tiles */
+.tiles{display:grid;gap:16px}
+@media (min-width:640px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1024px){.tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.tile{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;background:var(--bg-2);display:flex;align-items:flex-end;max-width:100%}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.tile:hover img{transform:scale(1.035)}
+.tile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,18,15,0) 22%,rgba(20,18,15,.78) 100%)}
+.tile:not(.tile--text) .tile-text{text-shadow:0 1px 16px rgba(0,0,0,.5)}
+.tile-text{position:relative;z-index:1;padding:26px 24px 24px;color:#fff;display:grid;gap:8px}
+.tile-text h3{font-size:clamp(24px,2vw,30px);font-weight:400;color:#fff}
+.tile-text p{font-size:15.5px;line-height:1.5;color:rgba(255,255,255,.88);max-width:36ch}
+.tile--text{background:var(--sage);aspect-ratio:auto;min-height:0;align-items:stretch}
+.tile--text::after{display:none}
+.tile--text .tile-text{color:var(--ink);padding:30px 26px;align-content:space-between;width:100%}
+.tile--text h3{color:var(--ink)}
+.tile--text p{color:var(--ink-2)}
+@media (min-width:640px){.tile--text{aspect-ratio:4/5}}
+.also{margin-top:clamp(40px,5vw,64px);padding-top:28px;border-top:1px solid var(--line);display:grid;gap:22px}
+@media (min-width:900px){.also{grid-template-columns:1fr auto;align-items:center;gap:48px}}
+.also .copy{font-size:15px}
+
+/* Collections */
+.coll{border-top:1px solid var(--line)}
+.coll-row{display:grid;gap:8px;padding-block:26px;border-bottom:1px solid var(--line)}
+.coll-row h3{font-size:clamp(24px,2.2vw,32px);font-weight:400}
+.coll-row h3 em{font-style:italic;color:var(--sage-deep);font-weight:300}
+.coll-row p{color:var(--ink-2);max-width:56ch}
+@media (min-width:900px){.coll-row{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px;align-items:baseline;padding-block:30px}}
+.aside{display:grid;gap:14px;padding:30px 28px;border-radius:var(--r);background:var(--bg-2)}
+.aside h3{font-size:clamp(24px,2vw,30px);font-weight:400}
+.aside p{color:var(--ink-2)}
+.manbox{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--bg-2)}
+.manbox-img{margin:0;aspect-ratio:4/5;max-width:100%}
+.manbox-img img{width:100%;height:100%;object-fit:cover;display:block}
+.manbox .aside{background:transparent;border-radius:0;padding:26px 28px}
+.skin-grid{display:grid;gap:40px}
+@media (min-width:1024px){.skin-grid{grid-template-columns:1fr 360px;gap:72px;align-items:start}.skin-grid .side{position:sticky;top:110px;display:grid;gap:24px}}
+
+/* Results */
+.res-grid{display:grid;gap:18px 16px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:900px){.res-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.res{display:grid;gap:12px}
+.res-ph{aspect-ratio:4/5;border-radius:var(--r);overflow:hidden;position:relative;display:grid;grid-template-columns:1fr 1fr;max-width:100%}
+.res-ph > div{background:var(--bg-2);display:flex;align-items:flex-end;padding:12px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
+.res-ph > div + div{background:#EDE9E0;border-left:1px solid var(--bg)}
+.res-ph img{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover}
+.res h3{font-family:var(--body);font-weight:400;font-size:16px;line-height:1.4}
+.res span{display:block;font-size:13.5px;color:var(--ink-3);margin-top:3px;letter-spacing:.04em}
+/* Results sliding strip */
+.marquee{overflow:hidden;width:100%;margin-top:clamp(36px,4vw,56px);-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.marquee-track{display:flex;width:max-content;animation:slidestrip 80s linear infinite}
+.marquee:hover .marquee-track,.marquee:focus-within .marquee-track{animation-play-state:paused}
+.marquee .res{width:min(72vw,300px);flex:0 0 auto;margin-right:18px}
+@keyframes slidestrip{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.marquee{overflow-x:auto}.marquee-track{animation:none}}
+
+/* K-popup */
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.facts span{background:var(--bg-2);border:1px solid var(--line);border-radius:999px;padding:9px 18px;font-size:14.5px;line-height:1.4;color:var(--ink)}
+.h-oneline{font-size:clamp(28px,3.1vw,38px)}
+@media (min-width:900px){.h-oneline{white-space:nowrap}}
+
+/* Quote */
+.quote{position:relative;overflow:hidden;color:#fff;background:var(--ink)}
+.quote img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 35%;opacity:.82}
+.quote::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,18,15,.5) 0%,rgba(20,18,15,.28) 55%,rgba(20,18,15,.16) 100%)}
+.quote .wrap{position:relative;z-index:1;display:grid;gap:26px;max-width:var(--max)}
+.quote blockquote{margin:0;font-family:var(--display);font-weight:300;font-size:clamp(30px,4.2vw,58px);line-height:1.15;max-width:29ch;text-wrap:balance}
+.quote cite{font-style:normal;font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;opacity:.92}
+.quote p{max-width:68ch;color:rgba(255,255,255,.92);font-size:17px}
+
+/* Business */
+.prog{display:grid;gap:0;border-top:1px solid var(--line)}
+.prog-row{display:grid;gap:8px;padding-block:24px;border-bottom:1px solid var(--line)}
+.prog-row h3{font-size:clamp(22px,2vw,28px);font-weight:400}
+.prog-row p{color:var(--ink-2);max-width:60ch}
+@media (min-width:900px){.prog-row{grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:40px;align-items:baseline}}
+.getlist{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.getlist li{padding:14px 0 14px 28px;border-bottom:1px solid var(--line);position:relative;color:var(--ink-2);line-height:1.5}
+.getlist li::before{content:"";position:absolute;left:0;top:24px;width:12px;height:1px;background:var(--sage-deep)}
+.biz{max-width:1040px;margin-inline:auto;display:grid;gap:clamp(26px,3.5vw,38px)}
+.biz-intro{text-align:center;color:var(--ink-2);display:grid;gap:14px;max-width:64ch;margin-inline:auto}
+.acc{display:grid;gap:10px}
+.acc details{background:var(--bg-2);border:1px solid var(--line);border-radius:16px;transition:background .2s}
+.acc details[open]{background:#fff;box-shadow:0 1px 0 var(--line)}
+.acc summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 22px;min-height:56px;font-family:var(--display);font-size:clamp(19px,1.9vw,23px);font-weight:400;color:var(--ink)}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"+";font-family:var(--body);font-weight:300;font-size:25px;line-height:1;color:var(--ink-3);flex:0 0 auto;transition:transform .3s}
+.acc details[open] summary::after{transform:rotate(45deg)}
+.acc details p{padding:0 22px 20px;margin:0;color:var(--ink-2);max-width:60ch}
+.acc--sage details{background:var(--sage);border-color:rgba(74,92,77,.2)}
+.acc--sage details[open]{background:var(--sage);box-shadow:none}
+.acc--sage summary{color:var(--ink)}
+.acc--sage details p{color:var(--ink-2)}
+/* Line-divided accordion (no boxes) */
+.acc--lines{gap:0}
+.acc--lines details{background:transparent;border:0;border-top:1px solid var(--line);border-radius:0}
+.acc--lines details:last-child{border-bottom:1px solid var(--line)}
+.acc--lines details[open]{background:transparent;box-shadow:none}
+.acc--lines summary{padding:18px 2px}
+.acc--lines details p{padding:0 2px 20px}
+.getcard{background:var(--bg-2);border:1px solid var(--line);border-radius:20px;padding:clamp(24px,3.4vw,36px);display:grid;gap:16px}
+.getcard h3{text-align:center}
+.getcard .getlist--card li{padding:13px 0 13px 28px}
+.getcard .getlist--card li:last-child{border-bottom:0}
+/* Program tier cards (one row, outlined icons) */
+.progcards{display:grid;gap:14px;grid-template-columns:1fr}
+@media (min-width:640px){.progcards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1000px){.progcards{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.progcard{background:var(--bg-2);border:1px solid var(--line);border-radius:18px;padding:24px 22px;display:grid;gap:12px;align-content:start}
+.progcard .ic{width:34px;height:34px;color:var(--sage-deep);flex:0 0 auto}
+.progcard h3{font-family:var(--display);font-weight:400;font-size:clamp(19px,1.5vw,22px);line-height:1.18}
+.progcard p{color:var(--ink-2);font-size:14.5px;line-height:1.5}
+/* Image card: text left, photo right */
+.getcard--img{padding:0;overflow:hidden;grid-template-columns:1fr}
+.getcard--img .getcard-body{padding:clamp(26px,3.4vw,38px);display:grid;gap:16px;align-content:center}
+.getcard--img .getcard-title{text-align:left;font-family:var(--display);font-weight:400;font-size:clamp(28px,3vw,40px);line-height:1.1}
+.getcard-media{margin:0;min-height:280px;background:var(--bg-2)}
+.getcard-media img{width:100%;height:100%;object-fit:cover;display:block}
+@media (min-width:760px){.getcard--img{grid-template-columns:1.05fr .95fr;align-items:stretch}}
+/* Final section with photo background */
+.final--img{position:relative;overflow:hidden}
+.final--img .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5;z-index:0}
+.final--img::after{content:"";position:absolute;inset:0;z-index:1;background:rgba(251,250,247,.15)}
+.final--img .wrap{position:relative;z-index:2}
+
+/* FAQ */
+.sec-head--center{justify-items:center;text-align:center}
+.sec-head--center .lede{margin-inline:auto}
+.faq{border-top:1px solid var(--line);max-width:860px}
+.faq--center{margin-inline:auto}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;align-items:center;padding:22px 0;font-family:var(--display);font-size:clamp(22px,2vw,28px);font-weight:400;min-height:52px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--body);font-weight:300;font-size:26px;color:var(--ink-3);flex:0 0 auto;transition:transform .3s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 0 24px;color:var(--ink-2);max-width:62ch}
+
+/* Final */
+.final .wrap{display:grid;gap:28px;text-align:center;justify-items:center}
+.final .lede{text-align:center;margin-inline:auto}
+.final .cta-row{justify-content:center}
+.final .note{max-width:52ch}
+
+/* Footer */
+footer{background:var(--bg-2);border-top:1px solid var(--line);padding-block:48px 40px}
+.foot-top{display:grid;gap:22px;padding-bottom:28px;border-bottom:1px solid var(--line)}
+@media (min-width:900px){.foot-top{grid-template-columns:1fr auto auto;align-items:center;gap:40px}}
+.foot-links{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px;color:var(--ink-2)}
+.foot-links a{min-height:44px;display:inline-flex;align-items:center}
+.foot-legal{padding-top:26px;display:grid;gap:14px;font-size:14px;line-height:1.6;color:var(--ink-3);max-width:1000px}
+</style>
+
+<header class="site-head">
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="Bloom with Bernie, home"><img class="logo-img" src="https://cdn.katalyst-crm.com/a/e127589b-bdc2-5363-eee6-2a3801b73b9f" alt="Bloom with Bernie" onerror="this.remove()"><span class="logo-fallback"><b>Bloom with Bernie</b><i>RIMAN UK · Build Globally</i></span></a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#why">Why RIMAN</a>
+      <a href="#skin">For your skin</a>
+      <a href="#results">Results</a>
+      <a href="#kpopup">K-popup</a>
+      <a href="#business">Business</a>
+      <a href="#about">About</a>
+      <a href="#faq">Questions</a>
+    </nav>
+    <div class="nav-cta"><a class="btn" href="https://berniehung.riman.com" target="_blank" rel="noopener">Open a Free Customer Account</a></div>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+  </div>
+  <div class="menu" id="menu">
+    <a href="#why">Why RIMAN</a>
+    <a href="#skin">For your skin</a>
+    <a href="#results">Results</a>
+    <a href="#kpopup">K-popup</a>
+    <a href="#business">Business</a>
+    <a href="#about">About</a>
+    <a href="#faq">Questions</a>
+    <a class="btn" href="https://berniehung.riman.com" target="_blank" rel="noopener">Open a Free Customer Account</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero">
+  <img class="hero-bg" src="https://cdn.katalyst-crm.com/a/0121b0f5-6c76-b239-7121-c90d5d7d6411" alt="" aria-hidden="true" fetchpriority="high" onerror="this.remove()">
+  <div class="wrap">
+    <div class="hero-inner">
+      
+      <h1 class="h-xl">Fewer products. A routine you’ll finish. Proof you can check.</h1>
+      <p class="lede">Premium Korean skincare for busy professionals, chosen with you by a lawyer who checked the science, the patents and the company first.</p>
+      <div class="hero-ctas">
+        <a class="btn btn--light" href="https://berniehung.riman.com" target="_blank" rel="noopener">Open a Free Customer Account</a>
+        <a class="btn btn--ghost" href="#kpopup">Try It Free at a K-popup</a>
+      </div>
+      <p class="copy">If your shelf is full of expensive products you never finish, you don’t need another one. You need one simple routine that suits your skin, and someone who can tell you why.</p>
+      <a class="textlink" href="https://berniehung.com/discovery" target="_blank" rel="noopener">Curious about building a business with RIMAN? Book a call with me.</a>
+    </div>
+  </div>
+</section>
+
+<!-- CREDIBILITY SNAPSHOT -->
+<section class="band band--tight cred-center">
+  <div class="wrap">
+    <div class="sec-head-c">
+      <h2 class="h-m">Who’s behind Bloom</h2>
+    </div>
+    <div class="statrow">
+      <div class="stat"><b>30 years</b><span>in law: intellectual property, regulation and risk</span></div>
+      <div class="stat"><b>8 years</b><span>in global luxury</span></div>
+      <div class="stat"><b>First 10</b><span>one of the first ten RIMAN UK Team Leaders</span></div>
+      <div class="stat"><b>2 books</b><span>Beyond Best (2021) and Legally Beyond Borders (2026)</span></div>
+    </div>
+    <div class="cred-foot">
+      <p class="note">Certified coach. Featured as “The Rebel Lawyer” in California Business Journal. Also seen on Entrepreneur, StartUp Nation and Thrive Global.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STAT BAND -->
+<section class="band band--tight cred-center statband">
+  <!-- Drop-in: client background photo goes here once attached -->
+  <video class="bg" src="https://cdn.katalyst-crm.com/a/ffa87ce0-391c-bf2f-ca10-196d05815af0" autoplay muted loop playsinline aria-hidden="true" tabindex="-1"></video>
+  <div class="wrap">
+    <div class="sec-head-c">
+      <h2 class="h-m">The company behind the products</h2>
+    </div>
+    <div class="statrow">
+      <div class="stat"><b>22</b><span>RIMAN patents</span></div>
+      <div class="stat"><b>59</b><span>time award winner</span></div>
+      <div class="stat"><b>55M+</b><span>ICD units sold</span></div>
+      <div class="stat"><b>20 years</b><span>exclusive rights to RIMAN’s core plant</span></div>
+    </div>
+    <div class="cred-foot">
+      <p class="note">Source: RIMAN Company Profile, figures as of 31 May 2026.</p>
+    </div>
+  </div>
+</section>
+
+<!-- THE PROBLEM -->
+<section class="band">
+  <div class="wrap split">
+    <figure class="media media--tall"><img src="https://cdn.katalyst-crm.com/a/94ba1e8b-6cff-3e65-585f-cfa96116e1f6" alt="A sunlit vanity of skincare products" loading="lazy" onerror="this.onerror=null;this.src='img/shelf.jpg'"></figure>
+    <div class="stack">
+      
+      <p class="eyebrow" style="color:var(--ink);font-weight:500">Sound familiar?</p>
+      <h2 class="h-l">You’ve spent good money on skincare. Most of it is still in the cupboard.</h2>
+      <div class="copy" style="margin-top:8px">
+        <p>Long days. Little time. A friend swore by one serum, a magazine by another. You bought both, used them for a week, and moved on. Money isn’t the problem. Time is. Nobody has ever sat down with you and worked out what your skin actually needs.</p>
+        <p class="pull">More products was never the answer. A simpler routine is.</p>
+        <p>Korean skincare starts from a different idea. Western beauty tends to add layers on top. The Korean way is to care for skin at the source. With RIMAN, that means one simple ritual, morning and evening, chosen with you. Nothing to research. Nothing to guess.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY RIMAN -->
+<section class="band band--cream" id="why">
+  <div class="wrap">
+    <div class="sec-head sec-head--split">
+      <div class="stack">
+        
+        <p class="eyebrow" style="color:var(--ink);font-weight:500">The Source</p>
+        <h2 class="h-l">Grown, researched and made by one company. From seed to jar.</h2>
+      </div>
+      <p class="lede">Before I put my name to RIMAN, I checked these facts. You can check them too.</p>
+    </div>
+
+    <div class="tiles">
+      <article class="tile">
+        <img src="https://cdn.katalyst-crm.com/a/7df266ba-4184-81ad-0831-67439aa68cc7" alt="Giant BYoungPool Centella Asiatica" loading="lazy" onerror="this.onerror=null;this.src='img/water.jpg'">
+        <div class="tile-text"><h3>A protected plant</h3><p>Giant BYoungPool™ is RIMAN’s own strain of Centella Asiatica. It is protected by Plant Variety Protection rights in Korea and the USA, with exclusive usage rights for 20 years.</p></div>
+      </article>
+      <article class="tile">
+        <img src="https://cdn.katalyst-crm.com/a/545fa134-6b6c-c78c-9cc1-b1d5a92f67dd" alt="RIMAN Centella Asiatica Smart Farm on Jeju Island" loading="lazy" onerror="this.onerror=null;this.src='img/moss.jpg'">
+        <div class="tile-text"><h3>Grown on Jeju Island</h3><p>It grows on RIMAN FARM on Jeju Island, the world’s first Centella Asiatica Smart Farm, with mineral-rich water that has moved through Jeju’s volcanic rock for 400,000 years.</p></div>
+      </article>
+      <article class="tile">
+        <img src="img/oil.jpg" alt="A glass pipette in a pool of golden oil with fine bubbles" loading="lazy">
+        <div class="tile-text"><h3>Built around delivery</h3><p>RIMAN’s nanoliposomal technology is designed around how ingredients are delivered, not only what goes in the jar.</p></div>
+      </article>
+      <article class="tile">
+        <img src="img/cream-cheek.jpg" alt="A stroke of white cream on a freckled cheek" loading="lazy">
+        <div class="tile-text"><h3>Tested for tolerance</h3><p>The ICD Dermatology Cream, Booster and Serum were each rated “excellent” for skin tolerance by Dermatest® in Germany, in a four-week study under dermatological control.</p></div>
+      </article>
+      <article class="tile">
+        <img src="img/cream-swirl.jpg" alt="A soft swirl of cream" loading="lazy">
+        <div class="tile-text"><h3>Premium, without the luxury-house price</h3><p>Serious formulation at an affordable-luxury price, so the routine is one you can keep up.</p></div>
+      </article>
+      <article class="tile tile--text">
+        <div class="tile-text">
+          <p class="eyebrow eyebrow--sage">Also good to know</p>
+          <p>Lava BYoungPool Water™ is Halal-certified by the Korea Muslim Federation, the botalab line is certified vegan by V-Label, and RIMAN Korea’s compliance system is built on ISO 37301 and ISO 37001.</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="also">
+      <p class="note">Or read the <a href="https://riman-archive.com/_ebook/company_profile/eng/" target="_blank" rel="noopener">RIMAN Company Profile</a>.</p>
+      <a class="btn btn--ghost" href="https://riman-archive.com/_ebook/company_profile/eng/" target="_blank" rel="noopener">See the Certificates</a>
+    </div>
+  </div>
+</section>
+
+<!-- SKINCARE FOR YOU -->
+<section class="band" id="skin">
+  <div class="wrap">
+    <div class="skin-grid">
+      <div class="coll">
+        <div class="sec-head" style="margin-bottom:clamp(28px,4vw,44px)">
+          <p class="eyebrow" style="color:var(--ink);font-weight:500">For Your Skin</p>
+          <h2 class="h-l">Start free. Stay as long as you like.</h2>
+          <p class="lede">Every routine is chosen with you. Pick the level that fits your skin and your life.</p>
+        </div>
+        <div class="acc acc--lines">
+          <details name="collns" open><summary>Radiance Discovery Experience · Free</summary><p>Try RIMAN on your own skin, with a personal consultation and a free Customer Account.</p></details>
+          <details name="collns"><summary>Essentials Collection</summary><p>Three or four carefully chosen products for one or two concerns.</p></details>
+          <details name="collns"><summary>Basic Starter Kit</summary><p>A complete personalised routine, morning and evening.</p></details>
+          <details name="collns"><summary>Complete Family Wellness Collection</summary><p>Skincare, haircare and bodycare for a household of up to four.</p></details>
+          <details name="collns"><summary>Legacy Wellness Collection</summary><p>Everything in Family Wellness, plus gifts, an annual personalised wellness review and VIP education sessions.</p></details>
+        </div>
+        <div style="margin-top:28px;display:grid;gap:16px">
+          <div class="cta-row"><a class="btn" href="https://berniehung.riman.com" target="_blank" rel="noopener">Open a Free Customer Account</a></div>
+          <p class="note">Current collections and prices are in my <a href="https://berniehung.riman.com" target="_blank" rel="noopener">RIMAN shop</a>. Choose your location.</p>
+        </div>
+      </div>
+      <div class="side">
+        <div class="manbox">
+          <figure class="manbox-img"><img src="https://cdn.katalyst-crm.com/a/c067b68f-da34-222a-3b02-c468aa682914" alt="RIMAN ICD Dermatology Cream shared between partners" loading="lazy" onerror="this.onerror=null;this.src='img/droplets.jpg'"></figure>
+          <div class="aside">
+            <h3>Not just for women.</h3>
+            <p>Lots of men start with RIMAN once their partner does. If you’d never buy a ten-step routine, good. You won’t need one.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REAL RESULTS -->
+<section class="band band--cream" id="results">
+  <div class="wrap">
+    <div class="sec-head sec-head--center">
+      
+      <p class="eyebrow" style="color:var(--ink);font-weight:500">Real Customers</p>
+      <h2 class="h-l h-oneline" style="font-size:clamp(36px,4.1vw,50px)">Real skin. Real people. Real photos.</h2>
+      <p class="lede">Before-and-after photos from RIMAN customers.</p>
+    </div>
+  </div>
+  <div class="marquee">
+    <div class="marquee-track">
+      <article class="res"><div class="res-ph" role="img" aria-label="Before and after photo, under-eye fine lines, 1 month"><img src="https://cdn.katalyst-crm.com/a/2fcffb33-e828-a311-7ace-90fa3638e93f" alt="Before and after, under-eye fine lines" loading="lazy" onerror="this.remove()"><div>Before</div><div>After</div></div><h3>Under-eye fine lines<span>1 month</span></h3></article>
+      <article class="res"><div class="res-ph" role="img" aria-label="Before and after photo, forehead skin texture"><img src="https://cdn.katalyst-crm.com/a/51445200-066f-403c-433f-f7d89fae2f95" alt="Before and after, forehead skin texture" loading="lazy" onerror="this.remove()"><div>Before</div><div>After</div></div><h3>Forehead skin texture<span>Before and after</span></h3></article>
+      <article class="res"><div class="res-ph" role="img" aria-label="Before and after photo, fine lines, 6 months"><img src="https://cdn.katalyst-crm.com/a/a1505449-8cfa-36c8-72a1-c289f9395448" alt="Before and after, fine lines" loading="lazy" onerror="this.remove()"><div>Before</div><div>After</div></div><h3>Fine lines<span>6 months</span></h3></article>
+      <article class="res"><div class="res-ph" role="img" aria-label="Before and after photo, fine lines, profile"><img src="https://cdn.katalyst-crm.com/a/74117024-99ca-c1db-a625-f95e5b780f32" alt="Before and after, fine lines in profile" loading="lazy" onerror="this.remove()"><div>Before</div><div>After</div></div><h3>Fine lines, profile<span>Before and after</span></h3></article>
+      <article class="res"><div class="res-ph" role="img" aria-label="Before and after photo, dry skin, 30 days"><img src="https://cdn.katalyst-crm.com/a/bf5b9d2b-a556-6b44-c56c-0f8fbed9a1f2" alt="Before and after, dry skin" loading="lazy" onerror="this.remove()"><div>Before</div><div>After</div></div><h3>Dry skin<span>30 days</span></h3></article>
+      <article class="res"><div class="res-ph" role="img" aria-label="Before and after photo, uneven skin tone"><img src="https://cdn.katalyst-crm.com/a/23c5877e-80da-23bb-1ebd-82c4df23cd10" alt="Before and after, uneven skin tone" loading="lazy" onerror="this.remove()"><div>Before</div><div>After</div></div><h3>Uneven skin tone<span>Before and after</span></h3></article>
+      <article class="res"><div class="res-ph" role="img" aria-label="Before and after photo, RIMAN ICD routine, 3 weeks"><img src="https://cdn.katalyst-crm.com/a/6340bb34-f4d4-e945-7fb9-144cc0a80227" alt="Before and after, RIMAN ICD routine" loading="lazy" onerror="this.remove()"><div>Before</div><div>After</div></div><h3>RIMAN ICD routine<span>3 weeks</span></h3></article>
+      <article class="res"><div class="res-ph" role="img" aria-label="Before and after photo, skin tone and radiance"><img src="https://cdn.katalyst-crm.com/a/de480ccb-476e-d14e-bf13-50c4d01204a4" alt="Before and after, skin tone and radiance" loading="lazy" onerror="this.remove()"><div>Before</div><div>After</div></div><h3>Skin tone and radiance<span>Before and after</span></h3></article>
+      <article class="res" aria-hidden="true"><div class="res-ph"><img src="https://cdn.katalyst-crm.com/a/2fcffb33-e828-a311-7ace-90fa3638e93f" alt="" loading="lazy" onerror="this.remove()"><div>Before</div><div>After</div></div><h3>Under-eye fine lines<span>1 month</span></h3></article>
+      <article class="res" aria-hidden="true"><div class="res-ph"><img src="https://cdn.katalyst-crm.com/a/51445200-066f-403c-433f-f7d89fae2f95" alt="" loading="lazy" onerror="this.remove()"><div>Before</div><div>After</div></div><h3>Forehead skin texture<span>Before and after</span></h3></article>
+      <article class="res" aria-hidden="true"><div class="res-ph"><img src="https://cdn.katalyst-crm.com/a/a1505449-8cfa-36c8-72a1-c289f9395448" alt="" loading="lazy" onerror="this.remove()"><div>Before</div><div>After</div></div><h3>Fine lines<span>6 months</span></h3></article>
+      <article class="res" aria-hidden="true"><div class="res-ph"><img src="https://cdn.katalyst-crm.com/a/74117024-99ca-c1db-a625-f95e5b780f32" alt="" loading="lazy" onerror="this.remove()"><div>Before</div><div>After</div></div><h3>Fine lines, profile<span>Before and after</span></h3></article>
+      <article class="res" aria-hidden="true"><div class="res-ph"><img src="https://cdn.katalyst-crm.com/a/bf5b9d2b-a556-6b44-c56c-0f8fbed9a1f2" alt="" loading="lazy" onerror="this.remove()"><div>Before</div><div>After</div></div><h3>Dry skin<span>30 days</span></h3></article>
+      <article class="res" aria-hidden="true"><div class="res-ph"><img src="https://cdn.katalyst-crm.com/a/23c5877e-80da-23bb-1ebd-82c4df23cd10" alt="" loading="lazy" onerror="this.remove()"><div>Before</div><div>After</div></div><h3>Uneven skin tone<span>Before and after</span></h3></article>
+      <article class="res" aria-hidden="true"><div class="res-ph"><img src="https://cdn.katalyst-crm.com/a/6340bb34-f4d4-e945-7fb9-144cc0a80227" alt="" loading="lazy" onerror="this.remove()"><div>Before</div><div>After</div></div><h3>RIMAN ICD routine<span>3 weeks</span></h3></article>
+      <article class="res" aria-hidden="true"><div class="res-ph"><img src="https://cdn.katalyst-crm.com/a/de480ccb-476e-d14e-bf13-50c4d01204a4" alt="" loading="lazy" onerror="this.remove()"><div>Before</div><div>After</div></div><h3>Skin tone and radiance<span>Before and after</span></h3></article>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="note" style="margin-top:clamp(32px,4vw,48px);text-align:center">Skin type, lifestyle and routine differ. Individual results vary and nothing is guaranteed.</p>
+  </div>
+</section>
+
+<!-- K-POPUP -->
+<section class="band" id="kpopup">
+  <div class="wrap split split--rev">
+    <figure class="media media--tall"><img src="https://cdn.katalyst-crm.com/a/c714ac83-2e76-a651-4184-54f98de794ec" alt="A relaxed K-popup facial moment" loading="lazy" onerror="this.onerror=null;this.src='img/hand-dropper.jpg'"></figure>
+    <div class="stack">
+      
+      <p class="eyebrow" style="color:var(--ink);font-weight:500">Free K-popup Facial</p>
+      <h2 class="h-l h-oneline">Try it on your own skin. Free.</h2>
+      <p class="lede">The Radiance Discovery Experience: a K-popup facial, in person or virtual.</p>
+      <p class="copy">Small and relaxed. Four or five guests, a cup of tea, and RIMAN on your own skin. You leave with a personal skin and wellness consultation, a routine chosen for you, and a free Customer Account. No pressure to buy.</p>
+      <div class="facts">
+        <span>In person or virtual</span>
+        <span>Four or five guests</span>
+        <span>Free</span>
+        <span>A consultation, recommendations and a free Customer Account</span>
+      </div>
+      <div style="margin-top:16px;display:grid;gap:18px">
+        <div class="cta-row"><a class="btn" href="https://berniehung.com/discovery" target="_blank" rel="noopener">Save My Place</a></div>
+        <p class="note">Want to host a few friends at home, or at your salon or studio? Ask me and I’ll guide the session. Hosts get a free gift.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BELIEF -->
+<section class="quote band">
+  <img src="https://cdn.katalyst-crm.com/a/35f5cb67-df65-1789-cb87-33b480d73cc2" alt="" loading="lazy" aria-hidden="true" onerror="this.onerror=null;this.src='img/shimmer.jpg'">
+  <div class="wrap">
+    
+    <blockquote>“Real transformation, whether in your skin or your income, doesn’t happen at the surface. It happens at the source.”</blockquote>
+    <cite>Bernie Hung</cite>
+    <p>That’s why I start with the source of everything I recommend: where it’s grown, how it’s made, and what’s on paper to prove it.</p>
+  </div>
+</section>
+
+<!-- BUILD WITH BERNIE -->
+<section class="band" id="business">
+  <div class="wrap">
+    <div class="sec-head sec-head--center">
+      <p class="eyebrow" style="color:var(--ink);font-weight:500">Love the products?</p>
+      <h2 class="h-l">Some people end up building a business around them.</h2>
+      <p class="lede">For professionals and business owners who want income that doesn’t stop when they do.</p>
+    </div>
+    <div class="biz">
+      <div class="progcards">
+        <div class="progcard">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <h3>Business Discovery Conversation · Free.</h3>
+          <p>My story, how the model works, an introduction to the RIMAN Compensation Plan, and your questions.</p>
+        </div>
+        <div class="progcard">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15l-3-3a11 11 0 0 1 8-9 11 11 0 0 1-9 8z"/><path d="M5 15c-1.5 1.5-2 5-2 5s3.5-.5 5-2a2.1 2.1 0 1 0-3-3z"/><circle cx="15" cy="9" r="1.2"/></svg>
+          <h3>Planner Business Launch.</h3>
+          <p>Start small alongside your work, with a starter kit, onboarding, launch planning and mentoring.</p>
+        </div>
+        <div class="progcard">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l5-5 4 4 8-8"/><path d="M15 8h6v6"/></svg>
+          <h3>Manager Business Growth.</h3>
+          <p>Grow your customers and start building a team, with weekly mentoring.</p>
+        </div>
+        <div class="progcard">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-2 8 9-12h-7z"/></svg>
+          <h3>Senior Manager Business Accelerator.</h3>
+          <p>For those ready to move faster towards leadership, with executive-level mentoring.</p>
+        </div>
+      </div>
+      <div class="biz-intro">
+        <p>Most professionals I meet have a good career and a quiet worry: if I stop, the income stops. I know that feeling. It’s why I started.</p>
+        <p>A RIMAN business grows from the products. Many of the people who build one started as customers. It’s built through steady, honest effort over time, alongside your career and family. No shortcuts, no guarantees, no pressure.</p>
+      </div>
+      <p class="note" style="text-align:center">Investment levels are shared openly on the call. Starting small is always an option.</p>
+      <div class="getcard getcard--img">
+        <div class="getcard-body">
+          <h3 class="getcard-title">What you get with me</h3>
+          <ul class="getlist getlist--card">
+            <li>A realistic weekly rhythm built around your career and family</li>
+            <li>A 7-day activation path and a 90-day launch plan</li>
+            <li>Your first two events co-hosted with me</li>
+            <li>Weekly mentoring for active Business Builders</li>
+            <li>The Drive: RIMAN’s marketing library, plus my own templates</li>
+            <li>An international network across the UK, Europe, Asia, Australia and the Americas</li>
+          </ul>
+        </div>
+        <figure class="getcard-media"><img src="https://cdn.katalyst-crm.com/a/69396a79-bfce-e610-bf17-4deb8cf24cca" alt="Bernie mentoring a new RIMAN Business Builder" loading="lazy" onerror="this.onerror=null;this.src='img/hand-dropper.jpg'"></figure>
+      </div>
+      <p class="copy" style="font-size:15.5px;text-align:center;margin-inline:auto">Before we talk, I’ll ask 11 quick questions. They take about three minutes and help me see whether we’re a good fit. I don’t take everyone onto my team, and a “no” from you is a perfectly good answer too. If it’s a shared decision, bring your partner.</p>
+      <div class="cta-row" style="justify-content:center"><a class="btn" href="https://berniehung.com/discovery" target="_blank" rel="noopener">Book a Call</a></div>
+      <p class="note" style="text-align:center">Already with another RIMAN team? Please stay with your sponsor.</p>
+      <p class="note" style="text-align:center;max-width:64ch;margin-inline:auto">Business information only. No income, rank or lifestyle outcome is guaranteed. Results depend on individual effort, market factors, consistency and compliance with official RIMAN rules.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="band band--cream" id="about">
+  <div class="wrap split">
+    <figure class="media media--tall"><img src="https://cdn.katalyst-crm.com/a/2d816813-0e5a-b307-0b14-af0419a07d7a" alt="Bernie Hung" loading="lazy" onerror="this.onerror=null;this.src='img/drip.jpg';this.alt='A single drop of serum falling from a pipette towards a resting face'"></figure>
+    <div class="stack">
+      
+      <p class="eyebrow" style="color:var(--ink);font-weight:500">Meet Bernie</p>
+      <h2 class="h-l">The lawyer who did the due diligence.</h2>
+      <div class="copy" style="margin-top:8px">
+        <p>For 30 years I’ve worked in law, advising on intellectual property, regulation and risk. I spent eight years in global luxury, so I know the difference between a beautiful story and real substance.</p>
+        <p>I was also the person this page is written for. Long days, a cupboard of good products, and no idea which ones were worth it.</p>
+        <p>In January 2025 a health scare stopped me in my tracks, and my income dropped almost overnight. I saw the flaw in the business I’d built: it only worked when I did.</p>
+        <p>A friend from my luxury days introduced me to RIMAN. I wasn’t sold. So I did what lawyers do and investigated. I found protected plant rights in Korea and the US, RIMAN’s own Smart Farm on Jeju Island, and a business model attached to it. That’s why I’m here.</p>
+        <p>I’m originally from Hong Kong and now based in London. I work with customers and Business Builders across the UK, Europe, North America, Asia Pacific and Australia, in English, Cantonese and Mandarin.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="band" id="faq">
+  <div class="wrap">
+    <div class="sec-head sec-head--center">
+      
+      <h2 class="h-l">Questions people ask me</h2>
+    </div>
+    <div class="faq faq--center">
+      <details><summary>Is RIMAN a pyramid scheme?</summary><p>It was my first question too. RIMAN is a direct selling company: real products sold to real customers, with independent Business Builders earning through retail sales and team activity under a published compensation plan. Read RIMAN’s official materials, ask me anything, and decide for yourself. No income is guaranteed.</p></details>
+      <details><summary>I already have loads of skincare.</summary><p>Then the K-popup is for you. Bring what you use now and we’ll look at it together. You may need fewer products, not more.</p></details>
+      <details><summary>Is RIMAN for men too?</summary><p>Yes. Skin is skin. I’ll keep your routine short and simple.</p></details>
+      <details><summary>Do I have to buy anything at a K-popup?</summary><p>No. It’s free and there’s no obligation.</p></details>
+      <details><summary>Do I have to join the business to be a customer?</summary><p>No. You can stay a customer for as long as you like. The business conversation only happens if you ask for it.</p></details>
+      <details><summary>I don’t have time for a business.</summary><p>Most people I speak to say the same. It’s designed around a small weekly rhythm alongside your career. On a call we’ll work out what’s realistic for you. If now isn’t the time, that’s fine.</p></details>
+      <details><summary>I’ve never sold anything.</summary><p>Neither had I. New Business Builders get onboarding, a 7-day activation path, a 90-day launch plan and two co-hosted first events with me.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="band final final--img">
+  <img class="bg" src="https://cdn.katalyst-crm.com/a/14238af7-3959-9e2a-91c3-2a96f9aaa51b" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">
+  <div class="wrap">
+    <h2 class="h-l">Start with your skin. The rest can wait.</h2>
+    <p class="lede">Open a free Customer Account and shop in your own time, or try RIMAN at a K-popup first. If the business side interests you, we can talk about that too.</p>
+    <div class="cta-row">
+      <a class="btn" href="https://berniehung.riman.com" target="_blank" rel="noopener">Open a Free Customer Account</a>
+      <a class="btn btn--light" href="https://berniehung.com/discovery" target="_blank" rel="noopener">Book a Call</a>
+    </div>
+    <p class="note" style="color:var(--ink-2)">Just browsing? Read the <a href="https://riman-archive.com/_ebook/company_profile/eng/" target="_blank" rel="noopener">RIMAN Company Profile</a>.<br>Know someone who’d love this? <a href="https://wa.me/?text=Fewer%20products.%20A%20routine%20you%E2%80%99ll%20finish.%20Proof%20you%20can%20check.%20Premium%20Korean%20skincare%2C%20chosen%20with%20you%3A%20https%3A%2F%2Fberniehung.com" target="_blank" rel="noopener">Send them this page on WhatsApp</a>.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <a class="logo" href="#top"><img class="logo-img" src="https://cdn.katalyst-crm.com/a/e127589b-bdc2-5363-eee6-2a3801b73b9f" alt="Bloom with Bernie" onerror="this.remove()"><span class="logo-fallback"><b>Bloom with Bernie</b><i>RIMAN UK · Build Globally</i></span></a>
+      <a class="inline-link" href="https://instagram.com/bloomwithbernie" target="_blank" rel="noopener" style="font-size:14px">Instagram @bloomwithbernie</a>
+      <nav class="foot-links" aria-label="Legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">DPCP</a>
+        <a href="#">Website Agreement</a>
+        <a href="#">Legal Disclaimer</a>
+      </nav>
+    </div>
+    <div class="foot-legal">
+      <p>Bernie Hung is an independent distributor at RIMAN and not an employee or agent of RIMAN. This website is for information only and does not make any medical, skincare, health, financial or income guarantees. Individual skincare results and business outcomes vary based on personal circumstances, individual effort and many other factors outside anyone’s control. Before-and-after photos are of real customers and are not guarantees. Please do your own due diligence and refer to the official RIMAN websites and materials for accurate, up-to-date product, ingredient, business and promotion information.</p>
+      <p>© 2026 HAY Business Service (UK) Co Ltd. Registered in England &amp; Wales, Company No. 11296523. Registered office: 131 Gallants Farm Road, EN4 8EL. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var btn=document.getElementById('burger'),menu=document.getElementById('menu');
+  function setOpen(o){
+    menu.classList.toggle('open',o);
+    btn.classList.toggle('is-open',o);
+    btn.setAttribute('aria-expanded',String(o));
+    btn.setAttribute('aria-label',o?'Close menu':'Open menu');
+    document.body.style.overflow=o?'hidden':'';
+  }
+  btn.addEventListener('click',function(){setOpen(!menu.classList.contains('open'))});
+  menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){setOpen(false)})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')setOpen(false)});
+  document.addEventListener('click',function(e){if(menu.classList.contains('open')&&!menu.contains(e.target)&&!btn.contains(e.target))setOpen(false)});
+  window.addEventListener('resize',function(){if(window.innerWidth>=1024)setOpen(false)});
+})();
+</script>
+
+</body></html>
