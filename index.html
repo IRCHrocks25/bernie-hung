@@ -307,11 +307,44 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding-block:48p
 .foot-links{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px;color:var(--ink-2)}
 .foot-links a{min-height:44px;display:inline-flex;align-items:center}
 .foot-legal{padding-top:26px;display:grid;gap:14px;font-size:14px;line-height:1.6;color:var(--ink-3);max-width:1000px}
+/* Certificate links */
+.cert-links{display:flex;flex-wrap:wrap;gap:10px}
+.certpill{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 18px;border:1px solid var(--line);border-radius:999px;background:var(--bg);font-size:13.5px;color:var(--ink);transition:background .2s,border-color .2s}
+.certpill:hover{background:var(--bg-2);border-color:var(--ink-3)}
+.certpill svg{width:15px;height:15px;color:var(--sage-deep);flex:0 0 auto}
+/* Who it's for */
+.whofor{display:grid;gap:10px;justify-items:center;text-align:center;background:var(--sage);border-radius:18px;padding:clamp(22px,3vw,30px);max-width:760px;margin-inline:auto}
+.whofor p{color:var(--ink);max-width:56ch;font-size:16.5px}
+/* Bloom Notes */
+.notes-grid{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:760px){.notes-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.notecard{position:relative;display:block;aspect-ratio:1/1;border-radius:14px;overflow:hidden;background:var(--bg-2)}
+.notecard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.notecard:hover img{transform:scale(1.05)}
+.notecard::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,18,15,0) 55%,rgba(20,18,15,.42) 100%);opacity:0;transition:opacity .3s}
+.notecard:hover::after{opacity:1}
+.notecard .ig{position:absolute;right:12px;bottom:12px;width:22px;height:22px;color:#fff;opacity:0;transition:opacity .3s;filter:drop-shadow(0 1px 4px rgba(0,0,0,.4))}
+.notecard:hover .ig{opacity:1}
+.notes-foot{margin-top:clamp(28px,4vw,40px);display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:center}
+.notes-note{font-size:13.5px;color:var(--ink-3);text-align:center;margin-top:16px}
+/* Share section */
+.share-wrap{display:grid;gap:clamp(32px,5vw,56px);align-items:center;justify-items:center}
+@media (min-width:760px){.share-wrap{grid-template-columns:1fr auto;gap:64px}}
+.share-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.share-btn{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:14px 24px;border-radius:999px;border:1px solid var(--ink);background:var(--ink);color:#fff;font-family:var(--body);font-weight:500;font-size:13px;letter-spacing:.06em;cursor:pointer;transition:transform .2s,background .2s}
+.share-btn:hover{transform:translateY(-1px);background:#000}
+.share-btn--ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.share-btn--ghost:hover{background:var(--bg-2);color:var(--ink)}
+.share-btn svg{width:18px;height:18px;flex:0 0 auto}
+.share-qr{display:grid;gap:12px;justify-items:center}
+.share-qr #qrcode{width:148px;height:148px;padding:12px;background:#fff;border:1px solid var(--line);border-radius:16px;display:flex;align-items:center;justify-content:center}
+.share-qr #qrcode img,.share-qr #qrcode canvas,.share-qr #qrcode svg{width:124px!important;height:124px!important;display:block}
+.share-qr span{font-size:13px;color:var(--ink-3)}
 </style>
 
 <header class="site-head">
   <div class="wrap nav">
-    <a class="logo" href="#top" aria-label="Bloom with Bernie, home"><img class="logo-img" src="https://cdn.katalyst-crm.com/a/e127589b-bdc2-5363-eee6-2a3801b73b9f" alt="Bloom with Bernie" onerror="this.remove()"><span class="logo-fallback"><b>Bloom with Bernie</b><i>RIMAN UK · Build Globally</i></span></a>
+    <a class="logo" href="#top" aria-label="Bloom with Bernie, home"><img class="logo-img" src="https://cdn.katalyst-crm.com/a/a60470a1-1c63-cbb9-087c-efeb58a73f2f" alt="Bloom with Bernie" onerror="this.remove()"><span class="logo-fallback"><b>Bloom with Bernie</b><i>RIMAN UK · Build Globally</i></span></a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#why">Why RIMAN</a>
       <a href="#skin">For your skin</a>
@@ -320,6 +353,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding-block:48p
       <a href="#business">Business</a>
       <a href="#about">About</a>
       <a href="#faq">Questions</a>
+      <a href="#notes">Bloom Notes</a>
     </nav>
     <div class="nav-cta"><a class="btn" href="https://berniehung.riman.com" target="_blank" rel="noopener">Open a Free Customer Account</a></div>
     <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
@@ -332,6 +366,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding-block:48p
     <a href="#business">Business</a>
     <a href="#about">About</a>
     <a href="#faq">Questions</a>
+    <a href="#notes">Bloom Notes</a>
     <a class="btn" href="https://berniehung.riman.com" target="_blank" rel="noopener">Open a Free Customer Account</a>
   </div>
 </header>
@@ -344,6 +379,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding-block:48p
   <div class="wrap">
     <div class="hero-inner">
       
+      <p class="eyebrow">Bloom with Bernie</p>
       <h1 class="h-xl">Fewer products. A routine you’ll finish. Proof you can check.</h1>
       <p class="lede">Premium Korean skincare for busy professionals, chosen with you by a lawyer who checked the science, the patents and the company first.</p>
       <div class="hero-ctas">
@@ -453,8 +489,16 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding-block:48p
     </div>
 
     <div class="also">
+      <div class="stack" style="gap:14px">
+        <p class="eyebrow eyebrow--sage">See the certificates</p>
+        <div class="cert-links">
+          <a class="certpill" href="https://assets.cdn.filesafe.space/mVEgAU6wuuHfnEKRWA22/media/6aca2a4fbd6bb710ca29bc51.jpg" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/><path d="M9 14l-2 7 5-3 5 3-2-7"/></svg>Korea plant-variety protection</a>
+          <a class="certpill" href="https://assets.cdn.filesafe.space/mVEgAU6wuuHfnEKRWA22/media/6aca2a4dbd6bb710ca29bc1d.jpg" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/><path d="M9 14l-2 7 5-3 5 3-2-7"/></svg>USDA plant-variety protection</a>
+          <a class="certpill" href="https://assets.cdn.filesafe.space/mVEgAU6wuuHfnEKRWA22/media/6aca2a4f195f9172ed2cce65.jpg" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12l2 2 4-4"/><path d="M12 3l2.5 1.7 3-.2 1 2.8 2.3 1.9-1 2.8.4 3L17 19l-1.5 2.6-3-.6-2.5 1.3-2.5-1.3-3 .6L3 19l-.9-2.5 .4-3-1-2.8L3.8 8.3l1-2.8 3 .2z"/></svg>Dermatest skin-tolerance report</a>
+          <a class="certpill" href="https://assets.cdn.filesafe.space/mVEgAU6wuuHfnEKRWA22/media/6aca2a4f4770fb500bcfa21f.jpg" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>Awards</a>
+        </div>
+      </div>
       <p class="note">Or read the <a href="https://riman-archive.com/_ebook/company_profile/eng/" target="_blank" rel="noopener">RIMAN Company Profile</a>.</p>
-      <a class="btn btn--ghost" href="https://riman-archive.com/_ebook/company_profile/eng/" target="_blank" rel="noopener">See the Certificates</a>
     </div>
   </div>
 </section>
@@ -546,7 +590,7 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding-block:48p
         <span>A consultation, recommendations and a free Customer Account</span>
       </div>
       <div style="margin-top:16px;display:grid;gap:18px">
-        <div class="cta-row"><a class="btn" href="https://berniehung.com/discovery" target="_blank" rel="noopener">Save My Place</a></div>
+        <div class="cta-row"><a class="btn" href="https://api.leadconnectorhq.com/widget/form/NP03Dlvn0ofCgG9VFzDx" target="_blank" rel="noopener">Save My Place</a></div>
         <p class="note">Want to host a few friends at home, or at your salon or studio? Ask me and I’ll guide the session. Hosts get a free gift.</p>
       </div>
     </div>
@@ -594,6 +638,10 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding-block:48p
           <h3>Senior Manager Business Accelerator.</h3>
           <p>For those ready to move faster towards leadership, with executive-level mentoring.</p>
         </div>
+      </div>
+      <div class="whofor">
+        <span class="eyebrow eyebrow--sage">Who it’s for</span>
+        <p>Professionals and business owners who want income that doesn’t stop when they do. Most start as customers and build steadily over time, alongside a career and family — no shortcuts, no pressure.</p>
       </div>
       <div class="biz-intro">
         <p>Most professionals I meet have a good career and a quiet worry: if I stop, the income stops. I know that feeling. It’s why I started.</p>
@@ -660,6 +708,27 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding-block:48p
   </div>
 </section>
 
+<!-- BLOOM NOTES -->
+<section class="band" id="notes">
+  <div class="wrap">
+    <div class="sec-head sec-head--center">
+      <p class="eyebrow" style="color:var(--ink);font-weight:500">Bloom Notes</p>
+      <h2 class="h-l">Latest from Instagram</h2>
+      <p class="lede">Routines, K-popup moments and the science behind RIMAN — follow along @bloomwithbernie.</p>
+    </div>
+    <div class="notes-grid">
+      <a class="notecard" href="https://www.instagram.com/bloomwithbernie" target="_blank" rel="noopener" aria-label="View on Instagram"><img src="https://cdn.katalyst-crm.com/a/c714ac83-2e76-a651-4184-54f98de794ec" alt="" loading="lazy" onerror="this.onerror=null;this.src='img/droplets.jpg'"><svg class="ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+      <a class="notecard" href="https://www.instagram.com/bloomwithbernie" target="_blank" rel="noopener" aria-label="View on Instagram"><img src="https://cdn.katalyst-crm.com/a/94ba1e8b-6cff-3e65-585f-cfa96116e1f6" alt="" loading="lazy" onerror="this.onerror=null;this.src='img/shelf.jpg'"><svg class="ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+      <a class="notecard" href="https://www.instagram.com/bloomwithbernie" target="_blank" rel="noopener" aria-label="View on Instagram"><img src="https://cdn.katalyst-crm.com/a/c067b68f-da34-222a-3b02-c468aa682914" alt="" loading="lazy" onerror="this.onerror=null;this.src='img/cream-cheek.jpg'"><svg class="ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+      <a class="notecard" href="https://www.instagram.com/bloomwithbernie" target="_blank" rel="noopener" aria-label="View on Instagram"><img src="https://cdn.katalyst-crm.com/a/69396a79-bfce-e610-bf17-4deb8cf24cca" alt="" loading="lazy" onerror="this.onerror=null;this.src='img/hand-dropper.jpg'"><svg class="ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+    </div>
+    <div class="notes-foot">
+      <a class="btn btn--ghost" href="https://www.instagram.com/bloomwithbernie" target="_blank" rel="noopener">Follow @bloomwithbernie</a>
+    </div>
+    <p class="notes-note">A live Instagram feed can be connected here on your site so your newest posts appear automatically.</p>
+  </div>
+</section>
+
 <!-- FINAL CTA -->
 <section class="band final final--img">
   <img class="bg" src="https://cdn.katalyst-crm.com/a/14238af7-3959-9e2a-91c3-2a96f9aaa51b" alt="" aria-hidden="true" loading="lazy" onerror="this.remove()">
@@ -670,7 +739,28 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding-block:48p
       <a class="btn" href="https://berniehung.riman.com" target="_blank" rel="noopener">Open a Free Customer Account</a>
       <a class="btn btn--light" href="https://berniehung.com/discovery" target="_blank" rel="noopener">Book a Call</a>
     </div>
-    <p class="note" style="color:var(--ink-2)">Just browsing? Read the <a href="https://riman-archive.com/_ebook/company_profile/eng/" target="_blank" rel="noopener">RIMAN Company Profile</a>.<br>Know someone who’d love this? <a href="https://wa.me/?text=Fewer%20products.%20A%20routine%20you%E2%80%99ll%20finish.%20Proof%20you%20can%20check.%20Premium%20Korean%20skincare%2C%20chosen%20with%20you%3A%20https%3A%2F%2Fberniehung.com" target="_blank" rel="noopener">Send them this page on WhatsApp</a>.</p>
+    <p class="note" style="color:var(--ink-2)">Just browsing? Read the <a href="https://riman-archive.com/_ebook/company_profile/eng/" target="_blank" rel="noopener">RIMAN Company Profile</a>.</p>
+  </div>
+</section>
+
+<!-- SHARE -->
+<section class="band band--cream" id="share">
+  <div class="wrap">
+    <div class="sec-head sec-head--center">
+      <h2 class="h-l">Know someone who’d love this?</h2>
+      <p class="lede">Share Bloom with Bernie in a tap — or let them scan the code to open it on their phone.</p>
+    </div>
+    <div class="share-wrap">
+      <div class="share-actions">
+        <a class="share-btn" id="sh-wa" href="https://www.instagram.com/bloomwithbernie" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.7 15l-1.3 4.9 5-1.3A10 10 0 1 0 12 2zm0 2a8 8 0 1 1-4.2 14.8l-.4-.2-2.6.7.7-2.5-.2-.4A8 8 0 0 1 12 4zm4.5 10.3c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.1-.2 0-.4.1-.5l.4-.5.2-.4v-.4l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5a1 1 0 0 0-.7.3c-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.4-.2z"/></svg>WhatsApp</a>
+        <a class="share-btn share-btn--ghost" id="sh-mail" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>Email</a>
+        <button class="share-btn share-btn--ghost" id="sh-copy" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg><span>Copy link</span></button>
+      </div>
+      <div class="share-qr">
+        <div id="qrcode" aria-hidden="true"></div>
+        <span>Scan to open Bloom with Bernie</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -679,13 +769,13 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding-block:48p
 <footer>
   <div class="wrap">
     <div class="foot-top">
-      <a class="logo" href="#top"><img class="logo-img" src="https://cdn.katalyst-crm.com/a/e127589b-bdc2-5363-eee6-2a3801b73b9f" alt="Bloom with Bernie" onerror="this.remove()"><span class="logo-fallback"><b>Bloom with Bernie</b><i>RIMAN UK · Build Globally</i></span></a>
-      <a class="inline-link" href="https://instagram.com/bloomwithbernie" target="_blank" rel="noopener" style="font-size:14px">Instagram @bloomwithbernie</a>
+      <a class="logo" href="#top"><img class="logo-img" src="https://cdn.katalyst-crm.com/a/a60470a1-1c63-cbb9-087c-efeb58a73f2f" alt="Bloom with Bernie" onerror="this.remove()"><span class="logo-fallback"><b>Bloom with Bernie</b><i>RIMAN UK · Build Globally</i></span></a>
+      <a class="inline-link" href="https://www.instagram.com/bloomwithbernie" target="_blank" rel="noopener" style="font-size:14px">Instagram @bloomwithbernie</a>
       <nav class="foot-links" aria-label="Legal">
-        <a href="#">Privacy Policy</a>
-        <a href="#">DPCP</a>
-        <a href="#">Website Agreement</a>
-        <a href="#">Legal Disclaimer</a>
+        <a href="https://app.gohighlevel.com/v2/preview/lfz982yXI84c5m69MPch" target="_blank" rel="noopener">Privacy Policy</a>
+        <a href="https://assets.cdn.filesafe.space/mVEgAU6wuuHfnEKRWA22/media/6a391411610e9ace504f7c19.pdf" target="_blank" rel="noopener">DPCP</a>
+        <a href="https://app.gohighlevel.com/v2/preview/V4muUuZs3qYo7hFZazZb" target="_blank" rel="noopener">Website Agreement</a>
+        <a href="https://app.gohighlevel.com/v2/preview/gRKrsyb60xTWoRUGjHfw" target="_blank" rel="noopener">Legal Disclaimer</a>
       </nav>
     </div>
     <div class="foot-legal">
@@ -710,6 +800,32 @@ footer{background:var(--bg-2);border-top:1px solid var(--line);padding-block:48p
   document.addEventListener('keydown',function(e){if(e.key==='Escape')setOpen(false)});
   document.addEventListener('click',function(e){if(menu.classList.contains('open')&&!menu.contains(e.target)&&!btn.contains(e.target))setOpen(false)});
   window.addEventListener('resize',function(){if(window.innerWidth>=1024)setOpen(false)});
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function(){
+  var fallback='https://berniehung.com/riman-skincare';
+  var url=location.href;
+  if(!/^https?:/i.test(url)||/claude/i.test(location.hostname)||location.protocol==='file:') url=fallback;
+  var msg='Fewer products. A routine you’ll finish. Proof you can check. Premium Korean skincare with Bloom with Bernie: '+url;
+  var wa=document.getElementById('sh-wa');
+  if(wa) wa.href='https://wa.me/?text='+encodeURIComponent(msg);
+  var mail=document.getElementById('sh-mail');
+  if(mail) mail.href='mailto:?subject='+encodeURIComponent('Bloom with Bernie — Korean skincare')+'&body='+encodeURIComponent(msg);
+  var copy=document.getElementById('sh-copy');
+  if(copy) copy.addEventListener('click',function(){
+    var label=copy.querySelector('span');
+    function done(){ if(label){var t=label.textContent;label.textContent='Copied';setTimeout(function(){label.textContent=t;},1800);} }
+    try{
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(done,function(){window.prompt&&window.prompt('Copy this link:',url);}); }
+      else { window.prompt&&window.prompt('Copy this link:',url); }
+    }catch(e){ window.prompt&&window.prompt('Copy this link:',url); }
+  });
+  try{
+    var q=document.getElementById('qrcode');
+    if(q&&window.QRCode){ new QRCode(q,{text:url,width:124,height:124,colorDark:'#1F1D1A',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }
+  }catch(e){}
 })();
 </script>
 
